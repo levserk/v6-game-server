@@ -1,0 +1,17 @@
+{
+  "name": "v6-game-server",
+  "version": "0.1.0",
+  "description": "V6 game server",
+  "author": {
+    "name": "King of Animals Lion"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "es6-promise": "*",
+    "v6-ws": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/levserk/v6-game-server"
+  }
+}

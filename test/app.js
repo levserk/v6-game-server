@@ -7,8 +7,8 @@ var Server = require('../index.js'),
     conf = {
         game: 'test',
         port: 8080,
-        pingTimeout:10000,
-        pingInterval:5000,
+        pingTimeout:100000,
+        pingInterval:50000,
         logLevel:3
     },
     server = new Server(conf, engine);

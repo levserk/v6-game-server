@@ -5,10 +5,12 @@ module.exports = {
     pingInterval:50000,
     logLevel:3,
     db:{
-        connectionLimit : 2,
+        connectionLimit : 4,
         host            : 'localhost',
         user            : 'root',
-        password        : 'root'
+        password        : 'root',
+        database        : 'logicgame'
     },
-    closeOldConnection:true
+    closeOldConnection: true,
+    mode: 'test'
 };

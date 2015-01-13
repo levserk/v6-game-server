@@ -1,6 +1,6 @@
 {
   "name": "v6-game-server",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "V6 game server",
   "author": {
     "name": "King of Animals Lion"
@@ -8,7 +8,8 @@
   "main": "index.js",
   "dependencies": {
     "es6-promise": "*",
-    "v6-ws": "*"
+    "v6-ws": "*",
+    "mysql": "*"
   },
   "repository": {
     "type": "git",

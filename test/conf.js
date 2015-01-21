@@ -4,7 +4,8 @@ module.exports = {
     pingTimeout:100000,
     pingInterval:10000,
     logLevel:3,
-    turnTime: 30,
+    turnTime: 10,
+    maxTimeouts:1,
     db:{
         connectionLimit : 4,
         host            : 'localhost',

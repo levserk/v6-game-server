@@ -1,9 +1,10 @@
 module.exports = {
     game: 'test',
     port: 8080,
-    pingTimeout:20000,
-    pingInterval:5000,
+    pingTimeout:100000,
+    pingInterval:10000,
     logLevel:3,
+    turnTime: 30,
     db:{
         connectionLimit : 4,
         host            : 'localhost',

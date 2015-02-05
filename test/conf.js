@@ -6,6 +6,7 @@ module.exports = {
     logLevel:3,
     turnTime: 10,
     maxTimeouts:1,
+    ratingElo:true,
     db:{
         connectionLimit : 4,
         host            : 'localhost',

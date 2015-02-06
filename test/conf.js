@@ -1,9 +1,14 @@
 module.exports = {
-    game: 'test',
+    game: 'test', // required, game name
     port: 8080,
-    pingTimeout:20000,
-    pingInterval:5000,
+    pingTimeout:100000,
+    pingInterval:10000,
     logLevel:3,
+    turnTime: 10,   // user turn time in seconds
+    maxTimeouts: 1, // count user timeouts in game to lose
+    ratingElo:true,
+    mode: 'test', // set developing mode, db isn't required
+    gameModes: ['mode1', 'mode2'], // game modes, with different history, ratings, games, default is one mode ['default']
     db:{
         connectionLimit : 4,
         host            : 'localhost',
@@ -11,6 +16,5 @@ module.exports = {
         password        : 'root',
         database        : 'logicgame'
     },
-    closeOldConnection: true,
-    mode: 'test'
+    closeOldConnection: true
 };

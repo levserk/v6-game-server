@@ -7,7 +7,7 @@ module.exports = {
     turnTime: 10,   // user turn time in seconds
     maxTimeouts: 1, // count user timeouts in game to lose
     ratingElo:true,
-    mode: 'test', // set developing mode, db isn't required
+    mode: 'debug', // set developing mode, db isn't required
     gameModes: ['mode 1', 'mode 2'], // game modes, with different history, ratings, games, default is one mode ['default']
     db:{
         connectionLimit : 4,

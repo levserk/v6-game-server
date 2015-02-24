@@ -8,7 +8,7 @@ module.exports = {
     maxTimeouts: 1, // count user timeouts in game to lose
     ratingElo:true,
     mode: 'debug', // set developing mode, db isn't required
-    gameModes: ['mode 1', 'mode 2'], // game modes, with different history, ratings, games, default is one mode ['default']
+    gameModes: ['mode_1', 'mode_2'], // game modes, with different history, ratings, games, default is one mode ['default']
     db:{
         connectionLimit : 4,
         host            : 'localhost',

@@ -12,7 +12,7 @@ module.exports = {
                 break;
             case 1: // win first player, black
                 return {
-                    winner: room.game.first
+                    winner: user
                 };
                 break;
             case 2: // draw

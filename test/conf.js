@@ -9,6 +9,7 @@ module.exports = {
     ratingElo:true,
     mode: 'debug', // set developing mode, db isn't required
     gameModes: ['mode_1', 'mode_2'], // game modes, with different history, ratings, games, default is one mode ['default']
+    modesAlias:{'mode_1':'mode first', 'mode_2': 'mode second'},
     db:{
         connectionLimit : 4,
         host            : 'localhost',

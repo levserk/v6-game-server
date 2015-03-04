@@ -1,6 +1,6 @@
 module.exports = {
-    game: 'test', // required, game name
-    port: 8080,
+    game: 'test2', // required, game name
+    port: 8078,
     pingTimeout:100000,
     pingInterval:10000,
     logLevel:3,

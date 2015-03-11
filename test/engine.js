@@ -35,5 +35,20 @@ module.exports = {
             event: event,
             target: room
         }
+    },
+    gameEvent: function(room, user, event, flagRoundStart){
+        if (flagRoundStart){
+            var data = [];
+            for (var i = 0; i < room.players.length; i++) {
+                data.push({
+                    target: room.players[i],
+                    event: {
+                        type: 'startEvent',
+                        data: room.players[i].userId
+                    }
+                });
+            }
+            return data;
+        }
     }
 };

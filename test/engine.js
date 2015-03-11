@@ -1,4 +1,8 @@
 module.exports = {
+    initUserData: function(mode, modeData){
+        if (!modeData.score) modeData.score = 100;
+        return modeData;
+    },
     getGameResult: function(room, user, turn){
         switch (turn.result){
             case 0: // win second player, white
@@ -23,6 +27,14 @@ module.exports = {
             default: return false;
         }
         throw new Error('can not compute winner! room:' + room.id + ' result: ' + turn.result);
+    },
+    getUsersScores: function(room, result){
+        for (var i = 0; i < room.players.length; i++){
+            if (room.players[i] == result.winner)
+                room.players[i][room.mode].score += 10;
+            else room.players[i][room.mode].score -= 10;
+        }
+        return result;
     },
     switchPlayer:function(room, user, turn){
         if (turn.switch){

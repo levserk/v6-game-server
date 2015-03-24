@@ -41,6 +41,7 @@ module.exports = {
             if (room.players[0] == user) return room.players[1];
             else return room.players[0];
         }
+        return user;
     },
     userEvent: function(room, user, event){
         return {

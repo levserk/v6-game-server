@@ -63,5 +63,8 @@ module.exports = {
             }
             return data;
         }
+    },
+    checkSign: function(user){
+        return (user.sign === user.userId + user.userName);
     }
 };

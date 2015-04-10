@@ -37,7 +37,7 @@ module.exports = {
         return result;
     },
     switchPlayer:function(room, user, turn){
-        if (turn.switch){
+        if (turn.switch || turn == 'timeout'){
             if (room.players[0] == user) return room.players[1];
             else return room.players[0];
         }

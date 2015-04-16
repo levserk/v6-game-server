@@ -1,9 +1,9 @@
 module.exports = {
     game: 'test2', // required, game name
     port: 8078,
-    pingTimeout:100000,
-    pingInterval:10000,
-    logLevel:3,
+    pingTimeout: 100000,
+    pingInterval: 10000,
+    logLevel: 3,
     turnTime: 60,   // user turn time in seconds
     maxTimeouts: 1, // count user timeouts in game to lose
     minTurns: 0,

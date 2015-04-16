@@ -12,6 +12,7 @@ module.exports = {
     gameModes: ['mode_1', 'mode_2'], // game modes, with different history, ratings, games, default is one mode ['default']
     modesAlias:{'mode_1':'mode first', 'mode_2': 'mode second'},
     adminList: ['85505'],
+    adminPass: '1',
     db:{
         connectionLimit : 4,
         host            : 'localhost',

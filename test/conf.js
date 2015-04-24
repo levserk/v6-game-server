@@ -9,7 +9,7 @@ module.exports = {
     minTurns: 0,
     takeBacks: 1,
     loadRanksInRating: true,
-    mode: 'develop1', // set developing mode, db isn't required
+    mode: 'debug', // set developing mode, db isn't required
     gameModes: ['mode_1', 'mode_2'], // game modes, with different history, ratings, games, default is one mode ['default']
     modesAlias:{'mode_1':'mode first', 'mode_2': 'mode second'},
     adminList: ['85505'],

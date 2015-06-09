@@ -18,6 +18,12 @@ module.exports = {
         }
         return user;
     },
+    doTurn: function(room, user, turn){
+        if (turn.action == 'timeout' && room.data[user.userId].timeouts < room.maxTimeouts) {
+            return { my_turn: '1'}
+        }
+        return turn;
+    },
     userEvent: function(room, user, event){
         event.user = user.userId;
         return {

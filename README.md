@@ -108,6 +108,17 @@
 		},
 
 		/**
+		 * вызывается после каждого пропуска хода
+		 * вовращаемый объект будет передан всем игрокам и записан в историю
+		 * @param room
+		 * @param user
+		 * @returns {Object}
+		 */
+		onTimeout: function(room, user){
+			return {action: 'timeout'};
+		},
+
+		/**
 		 * вызывается каждый ход игрока или после события пропуска хода
 		 * возвращаемый игрок будет ходить следующим
 		 * если вернуть того же игрока, чей был ход, ход останется за ним
@@ -154,17 +165,28 @@
 		 * и должен быть вида {winner : user}, где
 		 * user - User (игрок победитель ) || null (ничья)
 		 * если вернуть false - раунд еще не окончен
+		 * если пользователь не подключен игра завешится по
+		 * максимальному числу офлайн таймаутов
+		 * если не подключены оба, завершится поражением пропустившего
+		 * если не обрабатывать пропускать ход можно бесконечно
 		 */
 		getGameResult: function(room, user, turn){
+			// timeout
+			if (turn == 'timeout'){
+				// if user have max timeouts, other win
+				if (room.data[user.userId].timeouts == room.maxTimeouts){
+					return {
+						winner: room.players[0] == user ? room.players[1] : room.players[0]
+					};
+				} else return false;
+			}
+
+			// turn
 			switch (turn.result){
 				case 0: // win other player
-						for (var i = 0; i < room.players.length; i++){
-							if (room.players[i] != user) {
-								return {
-									winner: room.players[i]
-								};
-							}
-						}
+					return {
+						winner: room.players[0] == user ? room.players[1] : room.players[2]
+					};
 					break;
 				case 1: // win current player
 					return {

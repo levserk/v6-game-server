@@ -3,31 +3,6 @@ module.exports = {
         if (!modeData.score) modeData.score = 100;
         return modeData;
     },
-    getGameResult: function(room, user, turn){
-        switch (turn.result){
-            case 0: // win second player, white
-                    for (var i = 0; i < room.players.length; i++){
-                        if (room.players[i] != room.game.first) {
-                            return {
-                                winner: room.players[i]
-                            };
-                        }
-                    }
-                break;
-            case 1: // win first player, black
-                return {
-                    winner: user
-                };
-                break;
-            case 2: // draw
-                return {
-                    winner: null
-                };
-                break;
-            default: return false;
-        }
-        throw new Error('can not compute winner! room:' + room.id + ' result: ' + turn.result);
-    },
     getUsersScores: function(room, result){
         for (var i = 0; i < room.players.length; i++){
             if (room.players[i] == result.winner)
@@ -44,6 +19,7 @@ module.exports = {
         return user;
     },
     userEvent: function(room, user, event){
+        event.user = user.userId;
         return {
             event: event,
             target: room

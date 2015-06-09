@@ -14,12 +14,5 @@ module.exports = {
     gameModes: ['mode_1', 'mode_2'], // game modes, with different history, ratings, games, default is one mode ['default']
     modesAlias:{'mode_1':'mode first', 'mode_2': 'mode second'},
     adminList: ['448039'],
-    adminPass: '1',
-    db:{
-        connectionLimit : 4,
-        host            : 'localhost',
-        user            : 'root',
-        password        : 'root',
-        database        : 'logicgame'
-    }
+    adminPass: '1'
 };

@@ -166,7 +166,7 @@
 		 */
 		getGameResult: function(room, user, turn){
 			// timeout
-			if (turn == 'timeout'){
+			if (turn.action == 'timeout'){
 				// if user have max timeouts, other win
 				if (room.data[user.userId].timeouts == room.maxTimeouts){
 					return {

@@ -22,6 +22,9 @@ module.exports = {
         if (turn.action == 'timeout' && room.data[user.userId].timeouts < room.maxTimeouts) {
             return { my_turn: '1'}
         }
+        if (turn.time){
+            room.setUserTurnTime(turn.time);
+        }
         return turn;
     },
     userEvent: function(room, user, event){

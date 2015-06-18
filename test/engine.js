@@ -49,6 +49,52 @@ module.exports = {
             return data;
         }
     },
+    getGameResult: function(room, user, turn, type){
+        switch (type){
+            case 'timeout':
+                console.log('getGameResult', 'timeout', turn);
+                if (type == 'timeout'){
+                    // if user have max timeouts, other win
+                    if (room.data[user.userId].timeouts == room.maxTimeouts){
+                        return {
+                            winner: room.players[0] == user ? room.players[1] : room.players[0],
+                            action: 'timeout'
+                        };
+                    } else return false;
+                }
+                break;
+            case 'event':
+                console.log('getGameResult', 'event', turn);
+                if (turn.type == 'win'){
+                    return {
+                        winner: user
+                    };
+                } else return false;
+                break;
+            case 'turn':
+                console.log('getGameResult', 'turn', turn);
+                switch (turn.result){
+                    case 0: // win other player
+                        return {
+                            winner: room.players[0] == user ? room.players[1] : room.players[2]
+                        };
+                        break;
+                    case 1: // win current player
+                        return {
+                            winner: user
+                        };
+                        break;
+                    case 2: // draw
+                        return {
+                            winner: null
+                        };
+                        break;
+                    default: // game isn't end
+                        return false;
+                }
+                break;
+        }
+    },
     checkSign: function(user){
         return (user.sign === user.userId + user.userName);
     }

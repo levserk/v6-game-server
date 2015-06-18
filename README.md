@@ -35,7 +35,10 @@
 		spectateEnable: true,   	// разрешить просмотр игр
 		logLevel:3,             	// уровень подробности лога, 0 - без лога, 1 - только ошибки
 		turnTime: 100,              // время на ход игрока в секундах
-		resetTimerEveryTurn: false, // сбрасывать время игрока после каждого его хода
+		timeMode: 'reset_every_switch', // режимы таймера:
+										// 'reset_every_turn' сбрасывать после каждого хода
+										// 'reset_every_switch' сбрасывать после перехода хода
+										// 'dont_reset' не сбрасывать таймер, время на всю партию
 		maxTimeouts: 1,         	// разрешенное число пропусков хода игрока подряд до поражения
 		clearTimeouts: true,		// обнулять число пропусков игрока после его хода
 		maxOfflineTimeouts: 1,  	// число пропусков отключенного игрока подряд до поражения
@@ -105,8 +108,9 @@
 		 * в случае пропуска хода, turn = {action: 'timeout'}
 		 * если вернуть объект с полем action = 'timeout'
 		 * он будет принят как событие пропуск хода, иначе как обычный ход
+		 * type {'turn'|'timeout'} - ход игрока или таймаут
  		 */
-		doTurn: function(room, user, turn){
+		doTurn: function(room, user, turn, type){
 			return turn;
 		},
 
@@ -152,7 +156,7 @@
 		},
 
 		/**
-		 * вызывается каждый ход, определяет окончание раунда
+		 * вызывается каждый ход и событие, определяет окончание раунда
 		 * возвращаемый объект будет передан всем игрокам 
 		 * и должен быть вида {winner : user}, где
 		 * user - User (игрок победитель ) || null (ничья)
@@ -163,40 +167,49 @@
 		 * максимальному числу офлайн таймаутов
 		 * если не подключены оба, завершится поражением пропустившего
 		 * если не обрабатывать пропускать ход можно бесконечно
+		 * type {'turn'|'event','timeout'} - ход, событие или таймаут
 		 */
-		getGameResult: function(room, user, turn){
-			// timeout
-			if (turn.action == 'timeout'){
-				// if user have max timeouts, other win
-				if (room.data[user.userId].timeouts == room.maxTimeouts){
-					return {
-						winner: room.players[0] == user ? room.players[1] : room.players[0]
-						action: 'timeout'
-					};
-				} else return false;
-			}
-
-			// turn
-			switch (turn.result){
-				case 0: // win other player
-					return {
-						winner: room.players[0] == user ? room.players[1] : room.players[2]
-					};
-					break;
-				case 1: // win current player
-					return {
-						winner: user
-					};
-					break;
-				case 2: // draw
-					return {
-						winner: null
-					};
-					break;
-				default: // game isn't end
-					return false;
-			}
-		},
+    	getGameResult: function(room, user, turn, type){
+    	    switch (type){
+    	        case 'timeout':
+    	            if (type == 'timeout'){
+    	                // if user have max timeouts, other win
+    	                if (room.data[user.userId].timeouts == room.maxTimeouts){
+    	                    return {
+    	                        winner: room.players[0] == user ? room.players[1] : room.players[0],
+    	                        action: 'timeout'
+    	                    };
+    	                } else return false;
+    	            }
+    	            break;
+    	        case 'event':
+    	            if (turn.type){
+    	                return false;
+    	            }
+    	            break;
+    	        case 'turn':
+    	            switch (turn.result){
+    	                case 0: // win other player
+    	                    return {
+    	                        winner: room.players[0] == user ? room.players[1] : room.players[2]
+    	                    };
+    	                    break;
+    	                case 1: // win current player
+    	                    return {
+    	                        winner: user
+    	                    };
+    	                    break;
+    	                case 2: // draw
+    	                    return {
+    	                        winner: null
+    	                    };
+    	                    break;
+    	                default: // game isn't end
+    	                    return false;
+    	            }
+    	            break;
+    	    }
+    	},
 
 		/**
 		 * вызывается по окончанию раунда

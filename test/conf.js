@@ -7,6 +7,7 @@ module.exports = {
     turnTime: 10,   // user turn time in seconds
     maxTimeouts: 3, // count user timeouts in game to lose
     timeMode: 'reset_every_turn',
+    timeStartMode: 'after_turn',
     minTurns: 0,
     takeBacks: 1,
     loadRanksInRating: true,

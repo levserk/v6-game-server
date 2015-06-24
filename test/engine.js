@@ -3,6 +3,11 @@ module.exports = {
         if (!modeData.score) modeData.score = 100;
         return modeData;
     },
+    initGame: function (room) {
+        return {
+            inviteData: room.inviteData
+        }
+    },
     getUsersScores: function(room, result){
         for (var i = 0; i < room.players.length; i++){
             if (room.players[i] == result.winner)
@@ -11,16 +16,21 @@ module.exports = {
         }
         return result;
     },
-    switchPlayer:function(room, user, turn){
-        if (turn.switch || turn == 'timeout'){
-            if (room.players[0] == user) return room.players[1];
-            else return room.players[0];
+    switchPlayer:function(room, user, turn, type){
+        if (type=='timeout'){
+            console.log('switchPlayer', 'timeout', turn)
+        }
+        if (turn.switch || type == 'timeout'){
+            return room.getOpponent(user);
         }
         return user;
     },
-    doTurn: function(room, user, turn){
-        if (turn.action == 'timeout' && room.data[user.userId].timeouts < room.maxTimeouts) {
-            return { my_turn: '1'}
+    doTurn: function(room, user, turn, type){
+        if (type=='timeout'){
+            console.log('doTurn', 'timeout', turn)
+        }
+        if (type == 'timeout' && room.data[user.userId].timeouts < room.maxTimeouts) {
+            return { my_turn: 'auto_turn'}
         }
         if (turn.time){
             room.setUserTurnTime(turn.time);
@@ -57,7 +67,7 @@ module.exports = {
                     // if user have max timeouts, other win
                     if (room.data[user.userId].timeouts == room.maxTimeouts){
                         return {
-                            winner: room.players[0] == user ? room.players[1] : room.players[0],
+                            winner: room.getOpponent(user),
                             action: 'timeout'
                         };
                     } else return false;
@@ -76,7 +86,7 @@ module.exports = {
                 switch (turn.result){
                     case 0: // win other player
                         return {
-                            winner: room.players[0] == user ? room.players[1] : room.players[2]
+                            winner: room.getOpponent(user)
                         };
                         break;
                     case 1: // win current player

@@ -39,6 +39,12 @@
 										// 'reset_every_turn' сбрасывать после каждого хода
 										// 'reset_every_switch' сбрасывать после перехода хода
 										// 'dont_reset' не сбрасывать таймер, время на всю партию
+										// 'common' у игроков общее время на ход
+		timeStartMode: 'after_switch',  // когда запускать таймер
+										// 'after_turn' после первого хода
+										// 'after_switch' после первого перехода хода
+										// 'after_round_start' сразу после начала раунда
+        addTime: 0,                 // сколько милисекунд добавлять к времени на ход игрока после каждого его хода
 		maxTimeouts: 1,         	// разрешенное число пропусков хода игрока подряд до поражения
 		clearTimeouts: true,		// обнулять число пропусков игрока после его хода
 		maxOfflineTimeouts: 1,  	// число пропусков отключенного игрока подряд до поражения
@@ -62,6 +68,45 @@
 		httpsCa: ['/path../sub.class1.server.ca.pem', '/path../ca.pem'],
 	}
 ```
+
+	Примеры настроек:
+	- 	обычная игра, время на ход 30 секунд, разрешен один пропуск хода,
+		время игрока обнуляется после каждого хода, таймер стартует после первого хода
+```js
+	{
+		turnTime: 30,
+		maxTimeouts: 2,
+		timeMode: 'reset_every_turn',
+		timeStartMode: 'after_turn',
+	}
+```
+
+	-	блиц, время на партию 60 секунд, время игрока не обнуляется,
+		после каждого его хода к его времени на ход добавляется 1 секунда,
+		таймер стартует после перехода хода к другому игроку,
+		после первого пропуска хода ему засчитывается поражение
+```js
+	{
+		turnTime: 60,
+		maxTimeouts: 1,
+		timeMode: 'dont_reset',
+		timeStartMode: 'after_switch',
+		addTime: 1000
+	}
+```
+
+	-	игра с общим временем на ход, по типу "кто быстрее",
+		таймер страртует сразу после начала раунда,
+		по истечении часа срабатывает таймаут и необходимо решить результат игры
+```js
+	{
+		turnTime: 3600,
+		maxTimeouts: 2,
+		timeMode: 'common',
+		timeStartMode: 'after_round_start',
+	}
+```
+
 ## Игровой движок
 	Методы игрового движка
 	
@@ -111,6 +156,9 @@
 		 * type {'turn'|'timeout'} - ход игрока или таймаут
  		 */
 		doTurn: function(room, user, turn, type){
+		    if (type == 'timeout'){
+                // this is user timeout
+            }
 			return turn;
 		},
 
@@ -118,11 +166,12 @@
 		 * вызывается каждый ход игрока или после события пропуска хода
 		 * возвращаемый игрок будет ходить следующим
 		 * если вернуть того же игрока, чей был ход, ход останется за ним
+		 * type {'turn'|'timeout'} - ход игрока или таймаут
 		 */
-		switchPlayer: function(room, user, turn){
-			if (turn == 'timeout'){
-				// this is user timeout
-			}
+		switchPlayer: function(room, user, turn, type){
+			if (type == 'timeout'){
+                // this is user timeout
+            }
 			if (room.players[0] == user) return room.players[1];
 			else return room.players[0];
 		},
@@ -258,6 +307,7 @@
 		},
 		data: Object,		// массив ключ значение, где ключи - userId
 							// для хранения временной информации для каждого игрока
+		getOpponent: Function(user: User)  	// возвращает соперника игрока
 		setUserTurnTime: Function(time: ms) // устанавливает время на ход, для павильной логики
 											// необходимо вызывать в методе doTurn
 	}

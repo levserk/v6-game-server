@@ -1,19 +1,20 @@
 module.exports = {
-    game: 'test2', // required, game name
+    game: 'test2',
     port: 8078,
     pingTimeout: 100000,
     pingInterval: 10000,
     logLevel: 3,
-    turnTime: 10,   // user turn time in seconds
-    maxTimeouts: 3, // count user timeouts in game to lose
+    turnTime: 10,
+    maxTimeouts: 1,
     timeMode: 'reset_every_turn',
-    timeStartMode: 'after_turn',
+    timeStartMode: 'after_round_start',
+    addTime: 0,
     minTurns: 0,
     takeBacks: 1,
     loadRanksInRating: true,
     penalties: true,
-    mode: 'develop', // set developing mode, db isn't required
-    gameModes: ['mode_1', 'mode_2'], // game modes, with different history, ratings, games, default is one mode ['default']
+    mode: 'develop',
+    gameModes: ['mode_1', 'mode_2'],
     modesAlias:{'mode_1':'mode first', 'mode_2': 'mode second'},
     adminList: ['448039'],
     adminPass: '1'

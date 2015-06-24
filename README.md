@@ -140,10 +140,7 @@
 		 */
 		setFirst: function (room) {
 			if (!room.game.first) return room.owner;
-			if (room.players[0] == room.game.first)
-				return room.players[1];
-			else
-				return room.players[0];
+			room.getOpponent(room.game.first)
 		},
 
 		/**
@@ -172,8 +169,7 @@
 			if (type == 'timeout'){
                 // this is user timeout
             }
-			if (room.players[0] == user) return room.players[1];
-			else return room.players[0];
+			return room.getOpponent(user);
 		},
 
 		/**
@@ -225,7 +221,7 @@
     	                // if user have max timeouts, other win
     	                if (room.data[user.userId].timeouts == room.maxTimeouts){
     	                    return {
-    	                        winner: room.players[0] == user ? room.players[1] : room.players[0],
+    	                        winner: room.getOpponent(user),
     	                        action: 'timeout'
     	                    };
     	                } else return false;
@@ -240,7 +236,7 @@
     	            switch (turn.result){
     	                case 0: // win other player
     	                    return {
-    	                        winner: room.players[0] == user ? room.players[1] : room.players[2]
+    	                        winner: room.getOpponent(user)
     	                    };
     	                    break;
     	                case 1: // win current player

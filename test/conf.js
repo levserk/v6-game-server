@@ -13,9 +13,10 @@ module.exports = {
     takeBacks: 1,
     loadRanksInRating: true,
     penalties: true,
-    mode: 'develop',
+    //mode: 'develop',
     gameModes: ['mode_1', 'mode_2'],
     modesAlias:{'mode_1':'mode first', 'mode_2': 'mode second'},
     adminList: ['448039'],
-    adminPass: '1'
+    adminPass: '1',
+    enableIpGames: false
 };

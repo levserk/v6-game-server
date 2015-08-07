@@ -62,7 +62,6 @@ module.exports = {
     getGameResult: function(room, user, turn, type){
         switch (type){
             case 'timeout':
-                console.log('getGameResult', 'timeout', turn);
                 if (type == 'timeout'){
                     // if user have max timeouts, other win
                     if (room.data[user.userId].timeouts == room.maxTimeouts){
@@ -74,7 +73,6 @@ module.exports = {
                 }
                 break;
             case 'event':
-                console.log('getGameResult', 'event', turn);
                 if (turn.type == 'win'){
                     return {
                         winner: user
@@ -82,7 +80,6 @@ module.exports = {
                 } else return false;
                 break;
             case 'turn':
-                console.log('getGameResult', 'turn', turn);
                 switch (turn.result){
                     case 0: // win other player
                         return {
@@ -107,5 +104,8 @@ module.exports = {
     },
     checkSign: function(user){
         return (user.sign === user.userId + user.userName);
+    },
+    adminAction: function(admin, type, data){
+        console.log(type);
     }
 };

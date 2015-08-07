@@ -1,6 +1,6 @@
 {
   "name": "v6-game-server",
-  "version": "0.9.15",
+  "version": "0.9.19",
   "description": "V6 game server",
   "author": {
     "name": "King of Animals Lion"
@@ -10,7 +10,7 @@
     "es6-promise": "*",
     "v6-ws": "*",
     "math": "*",
-    "mongodb": "2.*",
+    "mongodb": "2.0.33",
     "redis":"*"
   },
   "repository": {

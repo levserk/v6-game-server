@@ -56,6 +56,10 @@
 		mode: 'debug',          	// значение 'develop' уставновит режим без использования бд
 		gameModes: ['default'], 	// игровые режимы, со своим рейтингом и историей, имена без пробелов
 		modesAlias:{default:'default'}, // отображаемые клиенту алиасы режимов
+		enableIpGames: false,       // разрешает игры с одного ip
+        minUnfocusedTurns: 0,       // минимальное число ходов с потерей фокуса для засчитывания победы как читерской
+        							// 0 - не считать
+        minPerUnfocusedTurns: 0.9,  // соотношение числа ходов с потерей фокуса для засчитывания победы как читерской
 		adminList: [],				// список userId админов
 		adminPass: '',				// пароль для функций администратора
 		mongo:{                 	// настройки подключения mongodb
@@ -140,7 +144,7 @@
 		 */
 		setFirst: function (room) {
 			if (!room.game.first) return room.owner;
-			room.getOpponent(room.game.first)
+			return room.getOpponent(room.game.first)
 		},
 
 		/**
@@ -278,6 +282,16 @@
 		checkSign: function(user){
 			return (user.userId && user.userName && user.sign);
 		}
+
+		/**
+         * действие по вызову администратора
+         * @param admin
+         * @param type
+         * @param data
+         */
+        adminAction: function(admin, type, data){
+
+        }
 	};
 ```
 

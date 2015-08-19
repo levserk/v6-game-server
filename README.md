@@ -66,6 +66,10 @@
 			host: '127.0.0.1',
 			port: '27017'
 		},
+		redis:{                 	// настройки подключения redis
+        	host: '127.0.0.1',
+        	port: '6379'
+        },
 		https: true,				// настройки https
 		httpsKey: '/path../serv.key',
 		httpsCert: '/path../serv.crt',

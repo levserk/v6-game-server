@@ -311,19 +311,19 @@
 		inviteData: Object	// объект приглашения
 		mode: String		// режим
 		games: Int;			// сыграно раундов
-		turnTime = Int;		// время на ход
+		turnTime: Int;		// время на ход
 		game: {
 			state: String 	// состояние игры:  waiting,  playing, end
 			current: User,	// текущий игрок
+			first: User,	// игрок, чей ход первый, установленный функцией engine.setFirst
 			history: Array,	// массив с иторией ходов и событий
-			shistory: String// массив с историей преобразоыанный в строку
+			shistory: String// массив с историей, преобразованный в строку
 			turnStartTime: UTC 	// дата начала хода игрока
 		},
 		data: Object,		// массив ключ значение, где ключи - userId
 							// для хранения временной информации для каждого игрока
 		getOpponent: Function(user: User)  	// возвращает соперника игрока
-		setUserTurnTime: Function(time: ms) // устанавливает время на ход, для павильной логики
-											// необходимо вызывать в методе doTurn
+		setUserTurnTime: Function(time: ms) // устанавливает время на следующий ход
 	}
 ```
 	

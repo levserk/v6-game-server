@@ -4,6 +4,9 @@ module.exports = {
         return modeData;
     },
     initGame: function (room) {
+        if (room.mode == 'mode_2'){
+            room.timeMode = 'dont_reset'
+        }
         return {
             inviteData: room.inviteData
         }
@@ -83,16 +86,19 @@ module.exports = {
                 switch (turn.result){
                     case 0: // win other player
                         return {
+                            myRes: '1',
                             winner: room.getOpponent(user)
                         };
                         break;
                     case 1: // win current player
                         return {
+                            myRes: '1',
                             winner: user
                         };
                         break;
                     case 2: // draw
                         return {
+                            myRes: '1',
                             winner: null
                         };
                         break;

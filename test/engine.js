@@ -4,8 +4,10 @@ module.exports = {
         return modeData;
     },
     initGame: function (room) {
-        if (room.mode == 'mode_2'){
-            room.timeMode = 'dont_reset'
+        room.minTurns = 4;
+        if (room.mode == 'mode_1'){
+            room.timeMode = 'dont_reset';
+            room.turnTime = 30000;
         }
         return {
             inviteData: room.inviteData
@@ -33,7 +35,7 @@ module.exports = {
             console.log('doTurn', 'timeout', turn)
         }
         if (type == 'timeout' && room.data[user.userId].timeouts < room.maxTimeouts) {
-            return { my_turn: 'auto_turn'}
+            return turn;
         }
         if (turn.time){
             room.setUserTurnTime(turn.time);

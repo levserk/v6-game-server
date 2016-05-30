@@ -3,30 +3,15 @@ module.exports = {
         if (!modeData.score) modeData.score = 100;
         return modeData;
     },
-    getGameResult: function(room, user, turn){
-        switch (turn.result){
-            case 0: // win second player, white
-                    for (var i = 0; i < room.players.length; i++){
-                        if (room.players[i] != room.game.first) {
-                            return {
-                                winner: room.players[i]
-                            };
-                        }
-                    }
-                break;
-            case 1: // win first player, black
-                return {
-                    winner: user
-                };
-                break;
-            case 2: // draw
-                return {
-                    winner: null
-                };
-                break;
-            default: return false;
+    initGame: function (room) {
+        room.minTurns = 4;
+        if (room.mode == 'mode_1'){
+            //room.timeMode = 'dont_reset';
+            room.turnTime = 15000;
         }
-        throw new Error('can not compute winner! room:' + room.id + ' result: ' + turn.result);
+        return {
+            inviteData: room.inviteData
+        }
     },
     getUsersScores: function(room, result){
         for (var i = 0; i < room.players.length; i++){
@@ -36,14 +21,29 @@ module.exports = {
         }
         return result;
     },
-    switchPlayer:function(room, user, turn){
-        if (turn.switch){
-            if (room.players[0] == user) return room.players[1];
-            else return room.players[0];
+    switchPlayer:function(room, user, turn, type){
+        if (type=='timeout'){
+            console.log('switchPlayer', 'timeout', turn)
+        }
+        if (turn.switch || type == 'timeout'){
+            return room.getOpponent(user);
         }
         return user;
     },
+    doTurn: function(room, user, turn, type){
+        if (type=='timeout'){
+            console.log('doTurn', 'timeout', turn)
+        }
+        if (type == 'timeout' && room.data[user.userId].timeouts < room.maxTimeouts) {
+            return turn;
+        }
+        if (turn.time){
+            room.setUserTurnTime(turn.time);
+        }
+        return turn;
+    },
     userEvent: function(room, user, event){
+        event.user = user.userId;
         return {
             event: event,
             target: room
@@ -63,5 +63,57 @@ module.exports = {
             }
             return data;
         }
+    },
+    getGameResult: function(room, user, turn, type){
+        switch (type){
+            case 'timeout':
+                if (type == 'timeout'){
+                    // if user have max timeouts, other win
+                    if (room.data[user.userId].timeouts == room.maxTimeouts){
+                        return {
+                            winner: room.getOpponent(user),
+                            action: 'timeout'
+                        };
+                    } else return false;
+                }
+                break;
+            case 'event':
+                if (turn.type == 'win'){
+                    return {
+                        winner: user
+                    };
+                } else return false;
+                break;
+            case 'turn':
+                switch (turn.result){
+                    case 0: // win other player
+                        return {
+                            myRes: '1',
+                            winner: room.getOpponent(user)
+                        };
+                        break;
+                    case 1: // win current player
+                        return {
+                            myRes: '1',
+                            winner: user
+                        };
+                        break;
+                    case 2: // draw
+                        return {
+                            myRes: '1',
+                            winner: null
+                        };
+                        break;
+                    default: // game isn't end
+                        return false;
+                }
+                break;
+        }
+    },
+    checkSign: function(user){
+        return (user.sign === user.userId + user.userName);
+    },
+    adminAction: function(admin, type, data){
+        console.log(type);
     }
 };
